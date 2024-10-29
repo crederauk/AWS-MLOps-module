@@ -15,6 +15,7 @@ resource "aws_glue_job" "retraining_glue_job" {
 
   command {
     script_location = "s3://${var.config_bucket_id}/glue_scripts/retraining_job.py"
+    python_version = "3"
   }
 
   default_arguments = {

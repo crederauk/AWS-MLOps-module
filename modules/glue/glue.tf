@@ -20,7 +20,7 @@ resource "aws_glue_job" "retraining_glue_job" {
   }
 
   max_capacity = "1"
-  glue_version = "3"
+  glue_version = "4.0"
 
   default_arguments = {
     "--enable-metrics"      = "true"

@@ -20,13 +20,13 @@ resource "aws_glue_job" "retraining_glue_job" {
   }
 
   max_capacity = "1"
-  glue_version = "2.0"
+  glue_version = "3.0"
 
   default_arguments = {
     "--enable-metrics"      = "true"
     "--data_location_s3"    = var.data_location_s3
     "--job-bookmark-option" = "job-bookmark-enable"
-    "--additional-python-modules" = "pylint==2.17.5, pytest==7.4.0, flake8==6.0.0, boto3==1.28.24, pandas==1.5.3, requests==2.31.0, sagemaker==2.191.0, python-dotenv==1.0.0, pycaret==3.1.0, tensorflow==2.14.0, gunicorn==20.1.0, joblib==1.3.2 "
+    # "--additional-python-modules" = "pylint==2.17.5, pytest==7.4.0, flake8==6.0.0, boto3==1.28.24, pandas==1.5.3, requests==2.31.0, sagemaker==2.191.0, python-dotenv==1.0.0, pycaret==3.1.0, tensorflow==2.14.0, gunicorn==20.1.0, joblib==1.3.2"
   }
   tags = var.tags
 }

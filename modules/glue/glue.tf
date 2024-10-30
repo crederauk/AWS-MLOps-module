@@ -19,11 +19,13 @@ resource "aws_glue_job" "retraining_glue_job" {
     python_version = "3"
   }
 
+  max_capacity = "1"
+
   default_arguments = {
-    "--job-language"        = "python"
     "--enable-metrics"      = "true"
     "--data_location_s3"    = var.data_location_s3
     "--job-bookmark-option" = "job-bookmark-enable"
+     
   }
   tags = var.tags
 }

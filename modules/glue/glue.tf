@@ -25,7 +25,7 @@ resource "aws_glue_job" "retraining_glue_job" {
     "--enable-metrics"      = "true"
     "--data_location_s3"    = var.data_location_s3
     "--job-bookmark-option" = "job-bookmark-enable"
-     
+    "--additional-python-modules" = "pycaret==3.3.2,python-dotenv==1.0.1,ydata-profiling==4.10.0,shap==0.45.1,stepfunctions==2.3.0,s3fs==0.4.2"
   }
   tags = var.tags
 }

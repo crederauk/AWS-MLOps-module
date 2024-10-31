@@ -19,9 +19,9 @@ locals {
 resource "aws_s3_bucket_object" "glue_job_config_files" {
   for_each = toset(local.files_to_upload)
   bucket = local.bucket_name
-  key = each.value
+  key = "glue_jobs/${each.value}"
   source = "${local.file_path}/${each.value}"
-  etag = filemd5("${local.file_path}/${each.value}")
+  etag = filemd5("${path.module}/glue_jobs/${each.value}")
   tags = var.tags 
 }
 
@@ -33,7 +33,7 @@ resource "aws_glue_job" "retraining_glue_job" {
 
   command {
     name = "pythonshell"
-    script_location = "s3://${var.config_bucket_id}/glue_scripts/retraining_job.py"
+    script_location = "s3://${var.config_bucket_id}/glue_jobs/retraining_job.py"
     python_version = "3.9"
   }
 

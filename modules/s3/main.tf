@@ -6,7 +6,8 @@ locals {
   file_path = "${path.module}/../../mlops_ml_models"
   files_to_upload = concat(
     tolist(fileset(local.file_path, "*.ipynb")),
-    tolist(fileset(local.file_path, "*.py"))
+    tolist(fileset(local.file_path, "*.py")),
+    tolist(fileset(local.file_path, "requirements.txt"))
   )
   bucket_names = tolist(["${var.model_name}-model", "${var.model_name}-config-bucket"])
 }

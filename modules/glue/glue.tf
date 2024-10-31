@@ -25,7 +25,8 @@ resource "aws_glue_job" "retraining_glue_job" {
     "--enable-metrics"      = "true"
     "--data_location_s3"    = var.data_location_s3
     "--job-bookmark-option" = "job-bookmark-enable"
-    "--additional-python-modules" = "pylint==2.17.5, pytest==7.4.0, flake8==6.0.0, boto3==1.28.24, pandas==1.5.3, requests==2.31.0, sagemaker==2.191.0, python-dotenv==1.0.0, pycaret==3.1.0, tensorflow==2.14.0, gunicorn==20.1.0, joblib==1.3.2"
+    "--extra-py-files" = "s3://${var.config_bucket_id}/save_model_to_s3.py, s3://${var.config_bucket_id}/transform_data.py, s3://${var.config_bucket_id}/load_data.py, s3://${var.config_bucket_id}/finalize_and_save_model.py, s3://${var.config_bucket_id}/deploy_model_endpoint.py, s3://${var.config_bucket_id}/delete_sagemaker_endpoint.py, s3://${var.config_bucket_id}/glue_jobs/setup.py"
+    # "--additional-python-modules" = "pylint==2.17.5, pytest==7.4.0, flake8==6.0.0, boto3==1.28.24, pandas==1.5.3, requests==2.31.0, sagemaker==2.191.0, python-dotenv==1.0.0, pycaret==3.1.0, tensorflow==2.14.0, gunicorn==20.1.0, joblib==1.3.2"
   }
   tags = var.tags
 }

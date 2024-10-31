@@ -1,10 +1,29 @@
 #Upload retraining_job.py to s3
-resource "aws_s3_object" "retraining_job_script" {
-  bucket = var.config_bucket_id
-  key    = "glue_scripts/retraining_job.py"
-  source = "${path.module}/glue_jobs/retraining_job.py"
-  etag   = filemd5("${path.module}/glue_jobs/retraining_job.py")
-  tags   = var.tags
+# resource "aws_s3_object" "retraining_job_script" {
+#   bucket = var.config_bucket_id
+#   key    = "glue_scripts/retraining_job.py"
+#   source = "${path.module}/glue_jobs/retraining_job.py"
+#   etag   = filemd5("${path.module}/glue_jobs/retraining_job.py")
+#   tags   = var.tags
+# }
+
+locals {
+  file_path = "${path.module}/../../glue/glue_jobs"
+  files_to_upload = concat(tolist(fileset(local.file_path, "*.py")),
+  tolist(fileset(local.file_path, "*.whl"))
+  )
+
+  bucket_name = "${var.config_bucket_id}"
+}
+
+resource "aws_s3_bucket_object" "glue_job_config_files" {
+  for_each = toset(local.files_to_upload)
+  bucket = local.bucket_name
+  key = each.value
+  source = "${local.file_path}/${each.value}"
+  etag = filemd5("${local.file_path}/${each.value}")
+  tags = var.tags
+  
 }
 
 #####Retraining Glue job#####

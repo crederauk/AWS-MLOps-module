@@ -21,7 +21,7 @@ resource "aws_s3_bucket_object" "glue_job_config_files" {
   bucket = local.bucket_name
   key = each.value
   source = "${local.file_path}/${each.value}"
-  etag = filemd5("${local.file_path}/${each.value}")
+  etag = filemd5("${local.file_path}/glue_jobs/${each.value}")
   tags = var.tags 
 }
 

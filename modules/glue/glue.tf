@@ -1,12 +1,3 @@
-#Upload retraining_job.py to s3
-# resource "aws_s3_object" "retraining_job_script" {
-#   bucket = var.config_bucket_id
-#   key    = "glue_scripts/retraining_job.py"
-#   source = "${path.module}/glue_jobs/retraining_job.py"
-#   etag   = filemd5("${path.module}/glue_jobs/retraining_job.py")
-#   tags   = var.tags
-# }
-
 locals {
   file_path = "${path.module}/glue_jobs"
   files_to_upload = concat(tolist(fileset(local.file_path, "*.py")),

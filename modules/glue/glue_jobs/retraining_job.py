@@ -28,7 +28,6 @@ from sagemaker.sklearn.estimator import SKLearn
 import pycaret
 from pycaret.regression import *
 from pycaret.classification import *
-from ydata_profiling import ProfileReport
 import shap
 
 # TODO: Test the code below in glue job

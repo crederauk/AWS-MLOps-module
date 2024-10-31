@@ -8,7 +8,7 @@
 # }
 
 locals {
-  file_path = "${path.module}/../../glue/glue_jobs"
+  file_path = "${path.module}/glue_jobs"
   files_to_upload = concat(tolist(fileset(local.file_path, "*.py")),
   tolist(fileset(local.file_path, "*.whl"))
   )
@@ -22,8 +22,7 @@ resource "aws_s3_bucket_object" "glue_job_config_files" {
   key = each.value
   source = "${local.file_path}/${each.value}"
   etag = filemd5("${local.file_path}/${each.value}")
-  tags = var.tags
-  
+  tags = var.tags 
 }
 
 #####Retraining Glue job#####
@@ -35,7 +34,7 @@ resource "aws_glue_job" "retraining_glue_job" {
   command {
     name = "pythonshell"
     script_location = "s3://${var.config_bucket_id}/glue_scripts/retraining_job.py"
-    python_version = "3"
+    python_version = "3.9"
   }
 
   max_capacity = "1"

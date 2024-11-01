@@ -28,22 +28,56 @@ from pycaret.regression import *
 from pycaret.classification import *
 import shap
 
+import sys
+from awsglue.utils import getResolvedOptions
+
 # Load environment variables
 load_dotenv(".env")
 role = get_execution_role()
 
-# Environment variables
-data_location_s3 = os.getenv("data_location_s3")
-algorithm_choice = os.getenv("algorithm_choice")
-target = os.getenv("target")
-endpoint_name = os.getenv("endpoint_name")
-model_name = os.getenv("model_name")
-data_location = f"s3://{data_location_s3}"
-instance_type = os.getenv("instance_type")
-model_instance_count = int(os.getenv("model_instance_count"))
-image_uri = os.getenv("ecr_repo_uri")
-tuning_metric = os.getenv("tuning_metric")
-existing_model_s3_uri = os.getenv('existing_model_s3_uri')  # S3 URI of the existing model
+# Define all expected arguments with default values
+args = getResolvedOptions(sys.argv, [
+    'data_location_s3',
+    'algorithm_choice',
+    'target',
+    'endpoint_name',
+    'model_name',
+    'instance_type',
+    'model_instance_count',
+    'image_uri',
+    'tuning_metric',
+])
+
+# Retrieve and assign values with defaults if not specified
+data_location_s3 = args.get('data_location_s3', None)
+print(f"data_location_s3 = {data_location_s3}")
+
+algorithm_choice = args.get('algorithm_choice', None)
+print(f"algorithm_choice = {algorithm_choice}")
+
+target = args.get('target', None)
+print(f"target = {target}")
+
+endpoint_name = args.get('endpoint_name', None)
+print(f"endpoint_name = {endpoint_name}")
+
+model_name = args.get('model_name', None)
+print(f"model_name = {model_name}")
+
+data_location = f"s3://{data_location_s3}" if data_location_s3 else None
+print(f"data_location = {data_location}")
+
+instance_type = args.get('instance_type', None)
+print(f"instance_type = {instance_type}")
+
+model_instance_count = int(args.get('model_instance_count', 1))  # default to 1 if not set
+print(f"model_instance_count = {model_instance_count}")
+
+image_uri = args.get('image_uri', None)
+print(f"image_uri = {image_uri}")
+
+tuning_metric = args.get('tuning_metric', None)
+print(f"tuning_metric = {tuning_metric}")
 
 # Initialize variables
 bucket = data_location_s3.split('/')[0]  # Assuming data_location_s3 is in the format 'bucket-name/prefix'
@@ -90,7 +124,7 @@ def load_existing_model(s3_uri):
     return model
 
 # Evaluate current model
-current_model = load_existing_model(existing_model_s3_uri)
+current_model = load_existing_model(image_uri)
 current_r2 = evaluate_model(current_model, validation_data)
 print(f"Current model R² score: {current_r2}")
 

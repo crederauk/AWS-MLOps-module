@@ -38,6 +38,7 @@ role = get_execution_role()
 # Define all expected arguments with default values
 args = getResolvedOptions(sys.argv, [
     'data_location_s3',
+    'data_file_name',
     'algorithm_choice',
     'target',
     'endpoint_name',
@@ -51,6 +52,9 @@ args = getResolvedOptions(sys.argv, [
 # Retrieve and assign values with defaults if not specified
 data_location_s3 = args.get('data_location_s3', None)
 print(f"data_location_s3 = {data_location_s3}")
+
+data_file_name = args.get('data_file_name', None)
+print(f"data_file_name = {data_file_name}")
 
 algorithm_choice = args.get('algorithm_choice', None)
 print(f"algorithm_choice = {algorithm_choice}")
@@ -80,13 +84,13 @@ tuning_metric = args.get('tuning_metric', None)
 print(f"tuning_metric = {tuning_metric}")
 
 # Initialize variables
-bucket = data_location_s3.split('/')[0]  # Assuming data_location_s3 is in the format 'bucket-name/prefix'
-prefix = '/'.join(data_location_s3.split('/')[1:])
+bucket = data_location_s3  # Assuming data_location_s3 is in the format 'bucket-name/prefix'
+prefix = '/'.join(data_file_name)
 region = boto3.Session().region_name
 session = sagemaker.Session()
 
 # Load data
-FILE_DATA = load_data(data_location)
+FILE_DATA = load_data(data_location + prefix)
 
 print(FILE_DATA.head())
 print(f"Total records: {len(FILE_DATA)}")

@@ -38,12 +38,13 @@ module "retraining_job" {
   tags                 = var.tags
   config_bucket_id     = module.s3.config_bucket_id
   data_location_s3     = var.data_location_s3
+  data_file_name       = var.data_file_name
   algorithm_choice     = var.algorithm_choice
   target               = var.model_target_variable
   endpoint_name        = var.endpoint_name
   instance_type        = var.sagemaker_instance_type
   model_instance_count = var.model_instance_count
-  image_uri = module.ecr.ecr_repo_uri
+  image_uri            = module.ecr.ecr_repo_uri
   tuning_metric        = var.tuning_metric
   retraining_schedule  = var.retraining_schedule
   region               = var.region

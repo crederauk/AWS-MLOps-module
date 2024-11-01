@@ -31,7 +31,7 @@ variable "model_name" {
 # S3
 ##########################################
 variable "data_location_s3" {
-  description = "Location of the data in s3 bucket"
+  description = "Bucket name of the data in s3"
   type        = string
 }
 
@@ -95,3 +95,7 @@ variable "tuning_metric" {
   type        = string
 }
 
+variable "data_file_name" {
+  description = "Name of the file you want to use in your model"
+  type        = string
+}

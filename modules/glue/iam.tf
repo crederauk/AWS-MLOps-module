@@ -35,9 +35,11 @@ resource "aws_iam_policy" "retraining_glue_policy" {
             "Effect": "Allow",
             "Action": [
                 "s3:GetObject",
-                "s3:PutObject"
+                "s3:PutObject",
+                "s3:ListBucket"
             ],
             "Resource": [
+                "arn:aws:s3:::streaming-data-platform-ml-data",
                 "arn:aws:s3:::streaming-data-platform-ml-data/*", 
                 "arn:aws:s3:::${var.config_bucket_id}/*"
             ]

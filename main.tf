@@ -32,15 +32,22 @@ module "iam" {
 
 
 module "retraining_job" {
-  count               = var.retrain_model_bool ? 1 : 0
-  source              = "./modules/glue"
-  model_name          = var.model_name
-  tags                = var.tags
-  config_bucket_id    = module.s3.config_bucket_id
-  data_location_s3    = var.data_location_s3
-  retraining_schedule = var.retraining_schedule
-  region              = var.region
-  account_id          = var.account_id
+  count                = var.retrain_model_bool ? 1 : 0
+  source               = "./modules/glue"
+  model_name           = var.model_name
+  tags                 = var.tags
+  config_bucket_id     = module.s3.config_bucket_id
+  data_location_s3     = var.data_location_s3
+  algorithm_choice     = var.algorithm_choice
+  target               = var.model_target_variable
+  endpoint_name        = var.endpoint_name
+  instance_type        = var.sagemaker_instance_type
+  model_instance_count = var.model_instance_count
+  image_uri            = var.image_uri
+  tuning_metric        = var.tuning_metric
+  retraining_schedule  = var.retraining_schedule
+  region               = var.region
+  account_id           = var.account_id
 }
 
 

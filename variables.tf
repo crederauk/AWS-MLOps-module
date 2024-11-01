@@ -94,3 +94,8 @@ variable "tuning_metric" {
   description = "The metric user want to focus when tuning hyperparameter"
   type        = string
 }
+
+variable "image_uri" {
+  description = "The uri of the image"
+  type        = string
+}

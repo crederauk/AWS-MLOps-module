@@ -2,6 +2,13 @@ variable "tags" {}
 variable "model_name" {}
 variable "config_bucket_id" {}
 variable "data_location_s3" {}
+variable "algorithm_choice" {}
+variable "target" {}
+variable "endpoint_name" {}
+variable "instance_type" {}
+variable "model_instance_count" {}
+variable "image_uri" {}
+variable "tuning_metric" {}
 variable "retraining_schedule" {}
 variable "region" {}
 variable "account_id" {}

@@ -38,7 +38,7 @@ resource "aws_iam_policy" "retraining_glue_policy" {
                 "s3:PutObject"
             ],
             "Resource": [
-                "arn:aws:s3:::streaming-data-platform-ml-data/*",", 
+                "arn:aws:s3:::streaming-data-platform-ml-data/*", 
                 "arn:aws:s3:::${var.config_bucket_id}/*"
             ]
         },

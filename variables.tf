@@ -95,7 +95,3 @@ variable "tuning_metric" {
   type        = string
 }
 
-variable "image_uri" {
-  description = "The uri of the image"
-  type        = string
-}

@@ -43,7 +43,6 @@ resource "aws_glue_job" "retraining_glue_job" {
     "--tuning_metric"        = var.tuning_metric
     "--job-bookmark-option"  = "job-bookmark-enable"
     "--extra-py-files"       = "s3://${var.config_bucket_id}/save_model_to_s3.py, s3://${var.config_bucket_id}/transform_data.py, s3://${var.config_bucket_id}/load_data.py, s3://${var.config_bucket_id}/finalize_and_save_model.py, s3://${var.config_bucket_id}/deploy_model_endpoint.py, s3://${var.config_bucket_id}/delete_sagemaker_endpoint.py, s3://${var.config_bucket_id}/glue_jobs/setup.py, s3://${var.config_bucket_id}/glue_jobs/mlops_dependencies_module-0.1-py3-none-any.whl"
-
   }
   tags = var.tags
 }

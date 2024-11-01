@@ -43,7 +43,7 @@ module "retraining_job" {
   endpoint_name        = var.endpoint_name
   instance_type        = var.sagemaker_instance_type
   model_instance_count = var.model_instance_count
-  image_uri            = var.image_uri
+  image_uri = module.ecr.ecr_repo_uri
   tuning_metric        = var.tuning_metric
   retraining_schedule  = var.retraining_schedule
   region               = var.region

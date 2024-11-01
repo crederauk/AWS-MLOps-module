@@ -85,8 +85,21 @@ prefix = '/'.join(data_location_s3.split('/')[1:])
 region = boto3.Session().region_name
 session = sagemaker.Session()
 
+def check_s3_file_exists(bucket_name: str, file_key: str) -> bool:
+    s3 = boto3.client('s3')
+    try:
+        s3.head_object(Bucket=bucket_name, Key=file_key)
+        print("File found. Glue job can access it.")
+        return True
+    except Exception as e:
+        print(f"File not found or inaccessible: {e}")
+        return False
+
+check_s3_file_exists(bucket, data_location_s3)
+
 # Load data
 FILE_DATA = load_data(data_location)
+
 print(FILE_DATA.head())
 print(f"Total records: {len(FILE_DATA)}")
 

@@ -42,8 +42,6 @@ resource "aws_iam_policy" "retraining_glue_policy" {
                 "arn:aws:s3:::${var.data_location_s3}",
                 "arn:aws:s3:::${var.data_location_s3}/*", 
                 "arn:aws:s3:::${var.config_bucket_id}/*",
-                "arn:aws:s3:::streaming-data-platform-ml-data",
-                "arn:aws:s3:::streaming-data-platform-ml-data/*"
             ]
         },
         {

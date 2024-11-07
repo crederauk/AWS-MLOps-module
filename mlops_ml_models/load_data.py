@@ -17,7 +17,7 @@ def load_data(data_location: str) -> pd.DataFrame:
     try:
         df = pd.read_csv(data_location, storage_options={"anon": True}, low_memory=False)
         # Dropped unnamed columns. You should comment this portion out before
-        # using the script if you dont have unamed columns
+        # using the script if you dont have unnamed columns
         df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
         return df
     except Exception as e:

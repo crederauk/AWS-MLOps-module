@@ -41,7 +41,7 @@ resource "aws_iam_policy" "retraining_glue_policy" {
             "Resource": [
                 "arn:aws:s3:::${var.data_location_s3}",
                 "arn:aws:s3:::${var.data_location_s3}/*",
-                "arn:aws:s3:::${var.config_bucket_id}/*",
+                "arn:aws:s3:::${var.config_bucket_id}/*"
             ]
         },
         {

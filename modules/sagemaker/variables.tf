@@ -6,7 +6,7 @@ variable "sagemaker_execution_role_arn" {}
 
 variable "tags" {}
 
-variable "data_location_s3" {}
+variable "data_bucket_id" {}
 
 variable "model_target_variable" {}
 

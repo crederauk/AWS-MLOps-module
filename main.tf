@@ -48,6 +48,7 @@ module "retraining_job" {
   region               = var.region
   data_bucket_id       = module.s3.data_bucket_id
   file_name            = module.data.file_name
+  account_id           = var.account_id
 }
 
 
@@ -57,7 +58,7 @@ module "ecr" {
 }
 
 module "data" {
-  source = "./modules/data"
+  source         = "./modules/data"
   data_bucket_id = var.data_bucket_id
-  tags = var.tags
+  tags           = var.tags
 }

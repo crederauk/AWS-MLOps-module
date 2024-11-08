@@ -12,3 +12,4 @@ variable "retraining_schedule" {}
 variable "region" {}
 variable "data_bucket_id" {}
 variable "file_name" {}
+variable "account_id" {}

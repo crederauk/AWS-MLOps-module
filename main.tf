@@ -55,3 +55,9 @@ module "ecr" {
   source           = "./modules/ecr"
   pycaret_ecr_name = var.pycaret_ecr_name
 }
+
+module "data" {
+  source = "./modules/data"
+  data_bucket_id = var.data_bucket_id
+  tags = var.tags
+}

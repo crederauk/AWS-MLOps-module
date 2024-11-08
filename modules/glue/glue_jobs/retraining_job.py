@@ -51,7 +51,7 @@ args = getResolvedOptions(sys.argv, [
 
 # Retrieve and assign values with defaults if not specified
 data_bucket_id = args.get('data_bucket_id', None)
-print(f"data_location_s3 = {data_bucket_id}")
+print(f"data_bucket_id = {data_bucket_id}")
 
 file_name = args.get('file_name', None)
 print(f"data_file_name = {file_name}")

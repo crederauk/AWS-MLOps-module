@@ -85,3 +85,13 @@ variable "tuning_metric" {
   description = "The metric user want to focus when tuning hyperparameter"
   type        = string
 }
+
+variable "file_name" {
+  description = "The file name, the user has uploaded to their data bucket"
+  type        = string
+}
+
+variable "data_bucket_id" {
+  description = "The ID of the data bucket the user has put their file"
+  type        = string
+}

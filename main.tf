@@ -46,8 +46,8 @@ module "retraining_job" {
   tuning_metric        = var.tuning_metric
   retraining_schedule  = var.retraining_schedule
   region               = var.region
-  data_bucket_id       = module.s3.data_bucket_id
-  file_name            = module.data.file_name
+  data_bucket_id       = var.data_bucket_id
+  file_name            = var.file_name
   account_id           = var.account_id
 }
 
@@ -55,10 +55,4 @@ module "retraining_job" {
 module "ecr" {
   source           = "./modules/ecr"
   pycaret_ecr_name = var.pycaret_ecr_name
-}
-
-module "data" {
-  source         = "./modules/data"
-  data_bucket_id = module.s3.data_bucket_id
-  tags           = var.tags
 }

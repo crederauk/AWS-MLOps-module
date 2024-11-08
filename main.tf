@@ -46,6 +46,8 @@ module "retraining_job" {
   tuning_metric        = var.tuning_metric
   retraining_schedule  = var.retraining_schedule
   region               = var.region
+  data_bucket_id       = module.s3.data_bucket_id
+  file_name            = module.data.file_name
 }
 
 

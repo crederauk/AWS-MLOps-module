@@ -13,7 +13,7 @@ module "sagemaker" {
   algorithm_choice             = var.algorithm_choice
   tuning_metric                = var.tuning_metric
   config_bucket_id             = module.s3.config_bucket_id
-  data_location_s3             = var.data_location_s3
+  data_bucket_id               = var.data_bucket_id
   endpoint_name                = var.endpoint_name
   model_name                   = var.model_name
   sagemaker_instance_type      = var.sagemaker_instance_type
@@ -59,6 +59,6 @@ module "ecr" {
 
 module "data" {
   source         = "./modules/data"
-  data_bucket_id = var.data_bucket_id
+  data_bucket_id = module.s3.data_bucket_id
   tags           = var.tags
 }

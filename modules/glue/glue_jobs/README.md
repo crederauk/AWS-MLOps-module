@@ -6,7 +6,7 @@
     install_requires=['pylint','pytest','flake8','boto3', 'pandas', 'requests', 'sagemaker', 'python-dotenv', 'pycaret', 'tensorflow', 'gunicorn','joblib''shap']
     ```
 
-2. Then you need to run in `~/glue/glue_jobs` directory the command:
+2. Then you need to run in `~/module/glue/glue_jobs` directory the command:
 
     ```sh
     python setup.py bdist_wheel

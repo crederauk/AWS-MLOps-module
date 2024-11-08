@@ -46,7 +46,6 @@ module "retraining_job" {
   tuning_metric        = var.tuning_metric
   retraining_schedule  = var.retraining_schedule
   region               = var.region
-  account_id           = var.account_id
 }
 
 

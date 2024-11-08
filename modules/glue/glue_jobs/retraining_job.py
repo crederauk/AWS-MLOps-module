@@ -37,8 +37,8 @@ role = get_execution_role()
 
 # Define all expected arguments with default values
 args = getResolvedOptions(sys.argv, [
-    'data_location_s3',
-    'data_file_name',
+    'data_bucket_id',
+    'file_name'
     'algorithm_choice',
     'target',
     'endpoint_name',
@@ -50,11 +50,11 @@ args = getResolvedOptions(sys.argv, [
 ])
 
 # Retrieve and assign values with defaults if not specified
-data_location_s3 = args.get('data_location_s3', None)
-print(f"data_location_s3 = {data_location_s3}")
+data_bucket_id = args.get('data_bucket_id', None)
+print(f"data_location_s3 = {data_bucket_id}")
 
-data_file_name = args.get('data_file_name', None)
-print(f"data_file_name = {data_file_name}")
+file_name = args.get('file_name', None)
+print(f"data_file_name = {file_name}")
 
 algorithm_choice = args.get('algorithm_choice', None)
 print(f"algorithm_choice = {algorithm_choice}")
@@ -68,7 +68,7 @@ print(f"endpoint_name = {endpoint_name}")
 model_name = args.get('model_name', None)
 print(f"model_name = {model_name}")
 
-data_location = f"s3://{data_location_s3}" if data_location_s3 else None
+data_location = f"s3://{data_bucket_id}" if data_bucket_id else None
 print(f"data_location = {data_location}")
 
 instance_type = args.get('instance_type', None)
@@ -84,8 +84,8 @@ tuning_metric = args.get('tuning_metric', None)
 print(f"tuning_metric = {tuning_metric}")
 
 # Initialize variables
-bucket = data_location_s3  # Assuming data_location_s3 is in the format 'bucket-name/prefix'
-prefix = '/'.join(data_file_name)
+bucket = data_bucket_id
+prefix = '/'.join(file_name)
 region = boto3.Session().region_name
 session = sagemaker.Session()
 

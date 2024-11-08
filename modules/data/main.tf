@@ -1,6 +1,6 @@
 locals {
   file_path = "${path.module}/data_files"
-  file_to_upload = fileset(local.file_path, "*.csv"),
+  file_to_upload = fileset(local.file_path, "*.csv")
   
   bucket_name = var.data_bucket_id
 }

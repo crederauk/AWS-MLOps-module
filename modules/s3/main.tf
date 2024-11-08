@@ -9,7 +9,7 @@ locals {
     tolist(fileset(local.file_path, "*.py")),
     tolist(fileset(local.file_path, "requirements.txt"))
   )
-  bucket_names = tolist(["${var.model_name}-model", "${var.model_name}-config-bucket", "${var.model_name}-data-bucket"])
+  bucket_names = tolist(["${var.model_name}-model", "${var.model_name}-config-bucket"])
 }
 
 resource "aws_kms_key" "s3_kms_key" {

@@ -85,7 +85,7 @@ print(f"tuning_metric = {tuning_metric}")
 
 # Initialize variables
 bucket = data_bucket_id
-prefix = '/'.join(file_name)
+prefix = '/' + file_name
 region = boto3.Session().region_name
 session = sagemaker.Session()
 

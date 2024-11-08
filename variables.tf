@@ -28,15 +28,6 @@ variable "model_name" {
 }
 
 ##########################################
-# S3
-##########################################
-variable "data_location_s3" {
-  description = "Bucket name of the data in s3"
-  type        = string
-}
-
-
-##########################################
 # Glue
 ##########################################
 variable "retraining_schedule" {
@@ -92,10 +83,5 @@ variable "model_instance_count" {
 
 variable "tuning_metric" {
   description = "The metric user want to focus when tuning hyperparameter"
-  type        = string
-}
-
-variable "data_file_name" {
-  description = "Name of the file you want to use in your model"
   type        = string
 }

@@ -12,4 +12,5 @@ variable "tuning_metric" {}
 variable "retraining_schedule" {}
 variable "region" {}
 variable "account_id" {}
-variable "data_file_name" {}
+variable "data_bucket_id" {}
+variable "file_name" {}

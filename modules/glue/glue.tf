@@ -32,7 +32,6 @@ resource "aws_glue_job" "retraining_glue_job" {
 
   default_arguments = {
     "--enable-metrics"       = "true"
-    "--data_location_s3"     = var.data_location_s3
     "--algorithm_choice"     = var.algorithm_choice
     "--target"               = var.target
     "--endpoint_name"        = var.endpoint_name
@@ -41,9 +40,8 @@ resource "aws_glue_job" "retraining_glue_job" {
     "--model_instance_count" = var.model_instance_count
     "--image_uri"            = var.image_uri
     "--tuning_metric"        = var.tuning_metric
-    "--data_file_name"       = var.data_file_name
     "--job-bookmark-option"  = "job-bookmark-enable"
-    "--extra-py-files"       = "s3://${var.config_bucket_id}/save_model_to_s3.py, s3://${var.config_bucket_id}/transform_data.py, s3://${var.config_bucket_id}/load_data.py, s3://${var.config_bucket_id}/finalize_and_save_model.py, s3://${var.config_bucket_id}/deploy_model_endpoint.py, s3://${var.config_bucket_id}/delete_sagemaker_endpoint.py, s3://${var.config_bucket_id}/glue_jobs/setup.py, s3://${var.config_bucket_id}/glue_jobs/mlops_dependencies_module-0.1-py3-none-any.whl"
+    "--extra-py-files"       = "s3://${var.config_bucket_id}/save_model_to_s3.py, s3://${var.config_bucket_id}/transform_data.py, s3://${var.config_bucket_id}/load_data.py, s3://${var.config_bucket_id}/finalize_and_save_model.py, s3://${var.config_bucket_id}/deploy_model_endpoint.py, s3://${var.config_bucket_id}/delete_sagemaker_endpoint.py, s3://${var.config_bucket_id}/glue_jobs/setup.py, s3://${var.config_bucket_id}/glue_jobs/mlops_dependencies_module-0.1-py3-none-any.whl, s3://${var.data_bucket_id}/data_files/${var.file_name}"
   }
   tags = var.tags
 }

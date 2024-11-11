@@ -90,8 +90,8 @@ region = boto3.Session().region_name
 session = sagemaker.Session()
 
 # Load data
-# FILE_DATA = load_data(data_location + prefix)
-FILE_DATA = pd.read_csv("s3://banking-classification-config-bucket/ethan_data.csv")
+FILE_DATA = load_data(data_location + prefix)
+
 print(FILE_DATA.head())
 print(f"Total records: {len(FILE_DATA)}")
 

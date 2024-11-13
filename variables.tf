@@ -92,6 +92,6 @@ variable "file_name" {
 }
 
 variable "data_bucket_id" {
-  description = "The ID of the data bucket the user has put their file"
+  description = "The ID of the data bucket the user has put their file in"
   type        = string
 }

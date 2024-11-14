@@ -38,7 +38,7 @@ role = get_execution_role()
 # Define all expected arguments with default values
 args = getResolvedOptions(sys.argv, [
     'data_bucket_id',
-    'file_name'
+    'file_name',
     'algorithm_choice',
     'target',
     'endpoint_name',
@@ -54,7 +54,7 @@ data_bucket_id = args.get('data_bucket_id', None)
 print(f"data_bucket_id = {data_bucket_id}")
 
 file_name = args.get('file_name', None)
-print(f"data_file_name = {file_name}")
+print(f"file_name = {file_name}")
 
 algorithm_choice = args.get('algorithm_choice', None)
 print(f"algorithm_choice = {algorithm_choice}")

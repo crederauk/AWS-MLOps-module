@@ -18,7 +18,7 @@ resource "aws_sagemaker_notebook_instance_lifecycle_configuration" "sagemaker_li
        chmod -R 777 /home/ec2-user/SageMaker/
 
        # Location of the csv file 
-       echo "data_location_s3=${var.data_bucket_id}" > /home/ec2-user/SageMaker/.env
+       echo "data_bucekt_id=${var.data_bucket_id}" > /home/ec2-user/SageMaker/.env
        echo "target=${var.model_target_variable}" >> /home/ec2-user/SageMaker/.env
        echo "algorithm_choice=${var.algorithm_choice}" >> /home/ec2-user/SageMaker/.env
        echo "endpoint_name=${var.endpoint_name}" >> /home/ec2-user/SageMaker/.env

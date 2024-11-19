@@ -8,6 +8,7 @@ import numpy as np
 import joblib
 import uuid
 import time
+import s3fs
 from sagemaker import get_execution_role
 from dotenv import load_dotenv
 from sklearn.metrics import r2_score
@@ -15,7 +16,6 @@ from sklearn.model_selection import train_test_split
 from sagemaker.sklearn.estimator import SKLearn
 
 # Import custom modules
-from load_data import load_data
 from transform_data import split_data, preprocess_df, feature_selection
 from save_model_to_s3 import save_model_to_s3
 from deploy_model_endpoint import deploy_model
@@ -88,9 +88,11 @@ bucket = data_bucket_id
 prefix = '/' + file_name
 region = boto3.Session().region_name
 session = sagemaker.Session()
+file_url = data_location + prefix
 
-# Load data
-FILE_DATA = load_data(data_location + prefix)
+fs = s3fs.S3FileSystem(anon=False)
+with fs.open(file_url ,'r') as f:
+  FILE_DATA = pd.read_csv(f) 
 
 print(FILE_DATA.head())
 print(f"Total records: {len(FILE_DATA)}")

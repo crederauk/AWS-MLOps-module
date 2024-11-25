@@ -1,5 +1,4 @@
 # retraining_job.py
-
 import os
 import boto3
 import sagemaker
@@ -16,7 +15,7 @@ from sklearn.model_selection import train_test_split
 from sagemaker.sklearn.estimator import SKLearn
 
 # Import custom modules
-from transform_data import split_data, preprocess_df, feature_selection
+from transform_data import split_data, feature_selection #, preprocess_df
 from save_model_to_s3 import save_model_to_s3
 from deploy_model_endpoint import deploy_model
 from finalize_and_save_model import finalize_and_save_model
@@ -99,18 +98,18 @@ print(f"Total records: {len(FILE_DATA)}")
 
 # Preprocess data
 # FILE_DATA = preprocess_df(FILE_DATA)
-# FILE_DATA = feature_selection(FILE_DATA, target)
+FILE_DATA = feature_selection(FILE_DATA, target, algorithm_choice)
 
-# # Split data
-# train_and_val_data, test_data = split_data(FILE_DATA, shuffle=True)
-# train_data, validation_data = split_data(train_and_val_data, shuffle=True)
+# Split data
+train_and_val_data, test_data = split_data(FILE_DATA, shuffle=True)
+train_data, validation_data = split_data(train_and_val_data, shuffle=True)
 
-# # Save validation data to S3 for model evaluation
-# validation_data.to_csv('validation_data.csv', index=False)
-# s3_client = boto3.client('s3')
-# validation_s3_key = f'{prefix}/validation_data.csv'
-# s3_client.upload_file('validation_data.csv', bucket, validation_s3_key)
-# validation_data_s3_uri = f's3://{bucket}/{validation_s3_key}'
+# Save validation data to S3 for model evaluation
+validation_data.to_csv('validation_data.csv', index=False)
+s3_client = boto3.client('s3')
+validation_s3_key = f'{prefix}/validation_data.csv'
+s3_client.upload_file('validation_data.csv', bucket, validation_s3_key)
+validation_data_s3_uri = f's3://{bucket}/{validation_s3_key}'
 
 # # Function to evaluate model and calculate R² score
 # def evaluate_model(model, data):

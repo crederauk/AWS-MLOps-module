@@ -111,28 +111,28 @@ validation_s3_key = f'{prefix}/validation_data.csv'
 s3_client.upload_file('validation_data.csv', bucket, validation_s3_key)
 validation_data_s3_uri = f's3://{bucket}/{validation_s3_key}'
 
-# # Function to evaluate model and calculate R² score
-# def evaluate_model(model, data):
-#     X = data.drop(columns=[target])
-#     y = data[target]
-#     predictions = model.predict(X)
-#     r2 = r2_score(y, predictions)
-#     return r2
+# Function to evaluate model and calculate R² score
+def evaluate_model(model, data):
+    X = data.drop(columns=[target])
+    y = data[target]
+    predictions = model.predict(X)
+    r2 = r2_score(y, predictions)
+    return r2
 
-# # Load existing model from S3
-# def load_existing_model(s3_uri):
-#     s3 = boto3.client('s3')
-#     bucket_name = s3_uri.split('/')[2]
-#     key = '/'.join(s3_uri.split('/')[3:])
-#     model_file = 'existing_model.pkl'
-#     s3.download_file(bucket_name, key, model_file)
-#     model = joblib.load(model_file)
-#     return model
+# Load existing model from S3
+def load_existing_model(s3_uri):
+    s3 = boto3.client('s3')
+    bucket_name = s3_uri.split('/')[2]
+    key = '/'.join(s3_uri.split('/')[3:])
+    model_file = 'existing_model.pkl'
+    s3.download_file(bucket_name, key, model_file)
+    model = joblib.load(model_file)
+    return model
 
-# # Evaluate current model
-# current_model = load_existing_model(image_uri)
-# current_r2 = evaluate_model(current_model, validation_data)
-# print(f"Current model R² score: {current_r2}")
+# Evaluate current model
+current_model = load_existing_model(image_uri)
+current_r2 = evaluate_model(current_model, validation_data)
+print(f"Current model R² score: {current_r2}")
 
 # # Check if retraining is needed
 # if current_r2 < 0.6:

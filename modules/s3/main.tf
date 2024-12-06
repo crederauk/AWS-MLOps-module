@@ -3,37 +3,29 @@
 # The model bucket will contain the model artifact
 # The config-bucket is used to store ipynb files, python files and other configuration files
 locals {
-  preprocessing_script_path = var.preprocessing_script_path
-  file_path                 = "${path.module}/../../mlops_ml_models"
+  file_path = "${path.module}/../../mlops_ml_models"
   files_to_upload = concat(
     tolist(fileset(local.file_path, "*.ipynb")),
     tolist(fileset(local.file_path, "*.py")),
-    tolist(fileset(local.file_path, "*.png"))
+    tolist(fileset(local.file_path, "requirements.txt"))
   )
-  bucket_names = tolist(["${var.resource_naming_prefix}-model-${random_string.s3_suffix.result}", "${var.resource_naming_prefix}-config-${random_string.s3_suffix.result}"])
+  bucket_names = tolist(["${var.model_name}-model", "${var.model_name}-config-bucket"])
 }
 
-resource "aws_kms_key" "model_buckets" {
-  description         = "${var.resource_naming_prefix}-s3-encryption-key"
+resource "aws_kms_key" "s3_kms_key" {
   enable_key_rotation = true
-  tags                = var.tags
 }
 
 resource "aws_s3_bucket" "model_buckets" {
   count         = length(local.bucket_names)
   bucket        = local.bucket_names[count.index]
   force_destroy = true
-  tags          = var.tags
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "model_buckets" {
-  count  = length(aws_s3_bucket.model_buckets)
-  bucket = aws_s3_bucket.model_buckets[count.index].id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.model_buckets.arn
-      sse_algorithm     = "aws:kms"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.s3_kms_key.arn
+        sse_algorithm     = "aws:kms"
+      }
     }
   }
 }
@@ -55,21 +47,4 @@ resource "aws_s3_object" "config_files" {
   source   = "${local.file_path}/${each.value}"
   etag     = filemd5("${local.file_path}/${each.value}")
   tags     = var.tags
-}
-
-# Random suffix to be appended to bucket names to ensure global uniqueness
-resource "random_string" "s3_suffix" {
-  length  = 6
-  lower   = true
-  special = false
-  upper   = false
-}
-
-resource "aws_s3_object" "preprocessing_script_path" {
-  count  = var.preprocessing_script_path != null ? 1 : 0
-  bucket = aws_s3_bucket.model_buckets[1].id
-  key    = "preprocess_data.py"
-  source = var.preprocessing_script_path
-  etag   = filemd5(local.preprocessing_script_path)
-  tags   = var.tags
 }

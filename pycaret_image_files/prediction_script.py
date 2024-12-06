@@ -32,7 +32,8 @@ model = load_model(MODEL_PATH)
 
 @app.route("/ping", methods=["GET"])
 def ping():
-    return flask.Response(response="\n", status=200, mimetype="application/json")
+    return flask.Response(response="\n", status=200,
+                          mimetype="application/json")
 
 
 # Define an endpoint for making predictions

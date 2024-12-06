@@ -1,11 +1,7 @@
 ####Glue retraining Job IAM role##########
-locals {
-  s3_buckets   = [var.config_s3_bucket, var.data_s3_bucket]
-  kms_key_arns = compact([var.config_bucket_key_arn, var.data_bucket_key_arn])
-}
 
-resource "aws_iam_role" "glue_retraining_job" {
-  name = "${var.resource_naming_prefix}-retraining-glue-job"
+resource "aws_iam_role" "iam_for_glue_retraining_job_role" {
+  name = "${var.model_name}-retraining-job-glue-iam"
 
   assume_role_policy = <<EOF
 {
@@ -27,53 +23,53 @@ EOF
   tags               = var.tags
 }
 
-data "aws_iam_policy_document" "glue_retraining_job" {
-  statement {
-    sid = "S3Access"
-    actions = [
-      "s3:ListBucket"
+
+resource "aws_iam_policy" "retraining_glue_policy" {
+  name   = "${var.model_name}-retraining-glue-policy"
+  policy = <<EOT
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "S3BucketsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.data_bucket_id}",
+                "arn:aws:s3:::${var.data_bucket_id}/*",
+                "arn:aws:s3:::${var.config_bucket_id}/*"
+            ]
+        },
+        {
+          "Sid": "AllowAccessToKey",
+          "Effect": "Allow",
+          "Action": [
+            "kms:Decrypt", 
+            "kms:GenerateDataKey"
+          ],
+          "Resource": "arn:aws:kms:${var.region}:${var.account_id}:key/*"
+        }
     ]
-    resources = [for bucket in local.s3_buckets : "arn:aws:s3:::${bucket}"]
-  }
-
-  statement {
-    sid = "S3ObjectAccess"
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject"
-    ]
-
-    resources = [for bucket in local.s3_buckets : "arn:aws:s3:::${bucket}/*"]
-  }
-
-  statement {
-    sid = "KMSAccess"
-    actions = [
-      "kms:Decrypt",
-      "kms:GenerateDataKey"
-    ]
-
-    resources = local.kms_key_arns
-  }
 }
-
-resource "aws_iam_policy" "glue_retraining_job" {
-  name   = "${aws_glue_job.retraining_job.name}-policy"
-  policy = data.aws_iam_policy_document.glue_retraining_job.json
+EOT
   tags   = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "AWSGlueServiceRole" {
-  role       = aws_iam_role.glue_retraining_job.name
+  role       = aws_iam_role.iam_for_glue_retraining_job_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
 }
 
-resource "aws_iam_role_policy_attachment" "glue_retraining_job_custom" {
-  role       = aws_iam_role.glue_retraining_job.name
-  policy_arn = aws_iam_policy.glue_retraining_job.arn
+resource "aws_iam_role_policy_attachment" "retraining_glue_policy_attachment" {
+  role       = aws_iam_role.iam_for_glue_retraining_job_role.name
+  policy_arn = aws_iam_policy.retraining_glue_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AWSGlueConsoleFullAccess" {
-  role       = aws_iam_role.glue_retraining_job.name
+  role       = aws_iam_role.iam_for_glue_retraining_job_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess"
 }

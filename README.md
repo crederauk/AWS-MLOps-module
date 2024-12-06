@@ -75,3 +75,4 @@ No resources.
 | <a name="output_model"></a> [model](#output\_model) | Outputs the machine learning model resource |
 | <a name="output_model_endpoint"></a> [model\_endpoint](#output\_model\_endpoint) | Outputs the machine learning model endpoint resource |
 <!-- END_TF_DOCS -->
+
